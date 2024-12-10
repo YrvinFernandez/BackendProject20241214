@@ -1,0 +1,8 @@
+# Environments
+.env
+.entornov
+env/
+entornov/
+ENV/
+env.bak/
+entornov.bak/
