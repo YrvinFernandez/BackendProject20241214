@@ -1,7 +1,3 @@
 # Environments
 .env
-env/
 entornov/
-ENV/
-env.bak/
-entornov.bak/
