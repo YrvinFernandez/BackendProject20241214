@@ -89,8 +89,8 @@ DATABASES = {
         'NAME': 'test_django',
         'USER': 'realdeb',
         'PASSWORD': '12345678',
-        'HOST': '192.168.175.137',
-        'PORT': '3306'
+        'HOST': '127.0.0.1',
+        'PORT': '3307'
     }
 }
 
