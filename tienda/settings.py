@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 from pathlib import Path
 from decouple import config
 from datetime import timedelta
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -41,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'drf_yasg',
+    "whitenoise.runserver_nostatic",
     'categorias',
     'users',
     'authentication'
@@ -48,6 +50,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -127,6 +130,16 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
+#HEROKU
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_TMP=os.path.join(BASE_DIR, 'static')
+
+os.makedirs(STATIC_TMP, exist_ok=True)
+os.makedirs(STATIC_ROOT, exist_ok=True)
+
+STATICFILES_DIRS=(
+    os.path.join(BASE_DIR, 'static'),
+)
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
@@ -165,3 +178,5 @@ EMAIL_PORT = config('MAIL_PORT', cast=int)
 EMAIL_HOST_USER = config('MAIL_USERNAME')
 EMAIL_HOST_PASSWORD = config('MAIL_PASSWORD')
 EMAIL_USE_TLS = config('MAIL_USE_TLS', cast=bool)
+
+STATICFILES_STORAGE="whitenoise.storage.CompressedManifestStaticFilesStorage"
