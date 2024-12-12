@@ -86,11 +86,11 @@ WSGI_APPLICATION = 'tienda.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': config('DB_NAME'),
-        'USER': config('DB_USER'),
-        'PASSWORD': config('DB_PASSWORD'),
-        'HOST': config('DB_HOST'),
-        'PORT': config('DB_PORT')
+        'NAME': 'test_django',
+        'USER': 'realdeb',
+        'PASSWORD': '12345678',
+        'HOST': '192.168.175.137',
+        'PORT': '3306'
     }
 }
 
