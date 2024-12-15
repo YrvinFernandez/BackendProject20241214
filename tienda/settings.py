@@ -13,21 +13,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 from pathlib import Path
 from datetime import timedelta
 from decouple import config
-import os
 
-
-# Cargar variables desde el archivo .env
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': config('DB_NAME'),
-        'USER': config('DB_USER'),
-        'PASSWORD': config('DB_PASSWORD'),
-        'HOST': config('DB_HOST'),
-        'PORT': config('DB_PORT')
-    }
-}
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -57,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'drf_yasg',
+    'corsheaders',
     'categorias',
     'users',
     'authentication'
@@ -65,6 +52,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    "corsheaders.middleware.CorsMiddleware",
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -135,16 +123,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
-#HEROKU
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATIC_TMP=os.path.join(BASE_DIR, 'static')
 
-os.makedirs(STATIC_TMP, exist_ok=True)
-os.makedirs(STATIC_ROOT, exist_ok=True)
-
-STATICFILES_DIRS=(
-    os.path.join(BASE_DIR, 'static'),
-)
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
@@ -178,10 +157,31 @@ SIMPLE_JWT = {
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1)
 }
 
+# Cargar variables desde el archivo .env
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': config('DB_NAME'),
+        'USER': config('DB_USER'),
+        'PASSWORD': config('DB_PASSWORD'),
+        'HOST': config('DB_HOST'),
+        'PORT': config('DB_PORT')
+    }
+}
+
 EMAIL_HOST = config('MAIL_SERVER')
 EMAIL_PORT = config('MAIL_PORT', cast=int)
 EMAIL_HOST_USER = config('MAIL_USERNAME')
 EMAIL_HOST_PASSWORD = config('MAIL_PASSWORD')
 EMAIL_USE_TLS = config('MAIL_USE_TLS', cast=bool)
 
-STATICFILES_STORAGE="whitenoise.storage.CompressedManifestStaticFilesStorage"
+
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",
+    "http://127.0.0.1:5173"
+]
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'

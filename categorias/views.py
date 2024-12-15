@@ -83,11 +83,11 @@ class ProductosListCreateView(generics.GenericAPIView):
         paginated_queryset = paginator.paginate_queryset(
             self.get_queryset(), request
         )
-        serializer = self.serializer_class(paginated_queryset, many=True)
+        serializer = self.serializer_class(paginated_queryset, many=True, context={'request': request})
         return paginator.get_paginated_response(serializer.data)
     
     def post(self, request):
-        serializer = self.serializer_class(data=request.data)
+        serializer = self.serializer_class(data=request.data, context={'request': request})
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(data=serializer.data, status=status.HTTP_201_CREATED)
